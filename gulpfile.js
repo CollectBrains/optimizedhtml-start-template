@@ -12,7 +12,18 @@ var gulp           = require('gulp'),
 		autoprefixer   = require('gulp-autoprefixer'),
 		ftp            = require('vinyl-ftp'),
 		notify         = require("gulp-notify"),
-		rsync          = require('gulp-rsync');
+		rsync          = require('gulp-rsync'),
+		svgstore       = require('gulp-svgstore'),
+		gcmq           = require('gulp-group-css-media-queries');
+
+
+
+gulp.task('sprite', function () {
+	return gulp.src('app/img/icons/*.svg')
+		.pipe(svgstore({inlineSvg: true}))
+		.pipe(rename('sprite.svg'))
+		.pipe(gulp.dest('app/img/sprite'))
+});
 
 // Пользовательские скрипты проекта
 
@@ -52,6 +63,7 @@ gulp.task('sass', function() {
 	.pipe(sass({outputStyle: 'expand'}).on("error", notify.onError()))
 	.pipe(rename({suffix: '.min', prefix : ''}))
 	.pipe(autoprefixer(['last 15 versions']))
+	.pipe(gcmq())
 	.pipe(cleanCSS()) // Опционально, закомментировать при отладке
 	.pipe(gulp.dest('app/css'))
 	.pipe(browserSync.reload({stream: true}));

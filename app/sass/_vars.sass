@@ -1,2 +1,23 @@
 $default-font: "roboto-example", sans-serif
 $accent: orange
+
+$breaksmall: 500px
+
+$breaklarge: 1180px
+
+=r($media)
+	@if $media == pda
+		@media only screen and (max-width: $breaksmall)
+			@content
+
+=placeholder
+	&:-ms-input-placeholder
+		@content
+	&:-moz-placeholder
+		@content
+	&::-moz-placeholder
+		@content
+	&::-webkit-input-placeholder
+		@content
+	&::placeholder
+		@content
